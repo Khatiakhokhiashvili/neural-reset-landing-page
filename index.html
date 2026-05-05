@@ -1,0 +1,849 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>21-Day Neural Reset — Free Challenge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green: #1D9E75;
+    --green-light: #E1F5EE;
+    --green-dark: #085041;
+    --cream: #F7F4EF;
+    --dark: #141410;
+    --mid: #2C2C2A;
+    --text: #1a1a17;
+    --muted: #6B6B66;
+    --border: rgba(0,0,0,0.1);
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--cream); color: var(--text); overflow-x: hidden; }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.25rem 3rem;
+    background: rgba(247,244,239,0.92); backdrop-filter: blur(12px);
+    border-bottom: 0.5px solid var(--border);
+  }
+  .nav-logo { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--text); letter-spacing: -0.02em; }
+  .nav-links { display: flex; align-items: center; gap: 2rem; }
+  .nav-link { font-size: 13px; color: var(--muted); text-decoration: none; transition: color 0.2s; }
+  .nav-link:hover { color: var(--text); }
+  .nav-cta {
+    padding: 8px 20px; border-radius: 40px;
+    background: var(--green); color: #fff;
+    font-size: 13px; font-weight: 500; text-decoration: none; transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--green-dark); }
+
+  /* HERO */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+    padding: 8rem 3rem 5rem; position: relative; overflow: hidden;
+  }
+  .hero-bg { position: absolute; inset: 0; z-index: 0; background: var(--dark); }
+  .hero-circle { position: absolute; border-radius: 50%; opacity: 0.12; }
+  .hero-circle-1 { width: 600px; height: 600px; background: var(--green); top: -100px; right: -100px; }
+  .hero-circle-2 { width: 400px; height: 400px; background: #5DCAA5; bottom: 50px; left: -80px; }
+  .hero-grid {
+    position: absolute; inset: 0;
+    background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+  .hero-content { position: relative; z-index: 1; max-width: 820px; }
+  .hero-eyebrow {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(29,158,117,0.2); border: 0.5px solid rgba(29,158,117,0.4);
+    color: #5DCAA5; font-size: 12px; font-weight: 500; letter-spacing: 0.08em;
+    text-transform: uppercase; padding: 6px 14px; border-radius: 40px;
+    margin-bottom: 2rem; animation: fadeUp 0.8s ease both;
+  }
+  .hero-eyebrow::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: #5DCAA5; display: inline-block; }
+  h1.hero-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(3rem, 7vw, 5.5rem);
+    line-height: 1.05; color: #fff; letter-spacing: -0.03em;
+    margin-bottom: 1.5rem; animation: fadeUp 0.8s 0.1s ease both;
+  }
+  h1.hero-title em { font-style: italic; color: #5DCAA5; }
+  .hero-sub {
+    font-size: clamp(1rem, 2vw, 1.2rem); color: rgba(255,255,255,0.6);
+    line-height: 1.7; max-width: 560px; margin-bottom: 2.5rem;
+    font-weight: 300; animation: fadeUp 0.8s 0.2s ease both;
+  }
+  .hero-actions {
+    display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.3s ease both;
+  }
+  .btn-primary {
+    padding: 14px 32px; border-radius: 40px; background: var(--green); color: #fff;
+    font-size: 15px; font-weight: 500; text-decoration: none; transition: all 0.2s; display: inline-block;
+  }
+  .btn-primary:hover { background: #5DCAA5; transform: translateY(-1px); }
+  .btn-ghost { padding: 14px 24px; color: rgba(255,255,255,0.6); font-size: 14px; text-decoration: none; transition: color 0.2s; }
+  .btn-ghost:hover { color: #fff; }
+  .hero-stats {
+    position: relative; z-index: 1;
+    display: flex; gap: 3rem; margin-top: 5rem; flex-wrap: wrap;
+    animation: fadeUp 0.8s 0.4s ease both;
+    border-top: 0.5px solid rgba(255,255,255,0.1); padding-top: 2rem;
+  }
+  .stat-num { font-family: 'DM Serif Display', serif; font-size: 2.5rem; color: #fff; line-height: 1; letter-spacing: -0.03em; }
+  .stat-label { font-size: 13px; color: rgba(255,255,255,0.4); margin-top: 4px; }
+
+  /* SECTIONS */
+  section { padding: 6rem 3rem; }
+  .container { max-width: 1000px; margin: 0 auto; }
+  .section-label { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green); margin-bottom: 1rem; }
+  h2.section-title { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 4vw, 3rem); line-height: 1.15; letter-spacing: -0.02em; color: var(--text); margin-bottom: 1.25rem; }
+  .section-body { font-size: 1.05rem; color: var(--muted); line-height: 1.8; max-width: 600px; font-weight: 300; }
+
+  /* ORIGIN STORY */
+  .origin { background: #fff; }
+  .origin-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; margin-top: 3rem; }
+  .origin-quote {
+    border-left: 3px solid var(--green); padding: 1.25rem 1.5rem;
+    background: var(--green-light); border-radius: 0 12px 12px 0; margin-bottom: 1.5rem;
+  }
+  .origin-quote p { font-size: 16px; color: var(--green-dark); line-height: 1.7; font-style: italic; }
+  .origin-quote cite { font-size: 12px; color: var(--green); font-style: normal; font-weight: 500; display: block; margin-top: 8px; }
+  .mentor-card {
+    background: var(--cream); border-radius: 16px; padding: 1.5rem;
+    border: 0.5px solid var(--border); margin-bottom: 1.5rem;
+  }
+  .mentor-tag { font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: var(--green); margin-bottom: 8px; }
+  .mentor-card h4 { font-size: 15px; font-weight: 500; margin-bottom: 6px; }
+  .mentor-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .timeline { display: flex; flex-direction: column; gap: 16px; }
+  .timeline-item { display: flex; gap: 14px; align-items: flex-start; }
+  .timeline-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--green); flex-shrink: 0; margin-top: 5px; }
+  .timeline-item p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+  .timeline-item strong { color: var(--text); font-weight: 500; }
+
+  /* WHY */
+  .why { background: var(--cream); }
+  .why-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; margin-top: 3rem; }
+  .brain-card {
+    background: #fff; border-radius: 16px; padding: 1.5rem;
+    border: 0.5px solid var(--border); transition: transform 0.2s;
+  }
+  .brain-card:hover { transform: translateX(4px); }
+  .brain-card-tag { font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; margin-bottom: 8px; padding: 3px 10px; border-radius: 20px; display: inline-block; }
+  .tag-limbic { background: rgba(232,74,74,0.1); color: #A32D2D; }
+  .tag-pfc { background: var(--green-light); color: var(--green-dark); }
+  .brain-card h3 { font-size: 16px; font-weight: 500; margin-bottom: 6px; }
+  .brain-card p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .brain-arrow { text-align: center; font-size: 24px; color: var(--green); padding: 4px 0; }
+  .why-text { display: flex; flex-direction: column; gap: 1.5rem; }
+  .why-point { display: flex; gap: 1rem; align-items: flex-start; }
+  .why-num { width: 32px; height: 32px; border-radius: 50%; background: var(--green-light); color: var(--green-dark); font-size: 13px; font-weight: 500; flex-shrink: 0; display: flex; align-items: center; justify-content: center; }
+  .why-point-text h4 { font-size: 15px; font-weight: 500; margin-bottom: 4px; }
+  .why-point-text p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+  /* SCIENCE STRIP */
+  .science-strip { background: var(--green-dark); padding: 3rem; }
+  .science-strip .container { display: flex; gap: 2rem; flex-wrap: wrap; justify-content: space-between; align-items: center; }
+  .science-fact { text-align: center; }
+  .science-fact-num { font-family: 'DM Serif Display', serif; font-size: 2rem; color: #5DCAA5; }
+  .science-fact-label { font-size: 12px; color: rgba(255,255,255,0.5); margin-top: 4px; max-width: 140px; }
+
+  /* CHALLENGES */
+  .challenges { background: var(--dark); }
+  .challenges .section-title { color: #fff; }
+  .challenges .section-body { color: rgba(255,255,255,0.5); }
+  .challenge-grid {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 1px; background: rgba(255,255,255,0.06);
+    border: 0.5px solid rgba(255,255,255,0.06); border-radius: 20px; overflow: hidden; margin-top: 3rem;
+  }
+  .challenge-item { padding: 2rem 1.5rem; background: var(--dark); transition: background 0.2s; }
+  .challenge-item:hover { background: var(--mid); }
+  .challenge-icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(29,158,117,0.15); border: 0.5px solid rgba(29,158,117,0.3); display: flex; align-items: center; justify-content: center; font-size: 20px; margin-bottom: 1rem; }
+  .challenge-item h3 { font-size: 15px; font-weight: 500; color: #fff; margin-bottom: 6px; }
+  .challenge-item p { font-size: 13px; color: rgba(255,255,255,0.4); line-height: 1.6; }
+  .challenge-science { font-size: 11px; color: var(--green); font-weight: 500; text-transform: uppercase; letter-spacing: 0.06em; margin-top: 10px; }
+
+  /* HOW */
+  .how { background: #fff; }
+  .how-steps { display: grid; grid-template-columns: repeat(5, 1fr); gap: 0; margin-top: 3rem; position: relative; }
+  .how-steps::before { content: ''; position: absolute; top: 28px; left: 10%; right: 10%; height: 0.5px; background: var(--border); z-index: 0; }
+  .how-step { text-align: center; padding: 0 0.75rem; position: relative; z-index: 1; }
+  .step-num { width: 56px; height: 56px; border-radius: 50%; background: var(--cream); border: 0.5px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--green); margin: 0 auto 1.25rem; }
+  .how-step h3 { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+  .how-step p { font-size: 12px; color: var(--muted); line-height: 1.6; }
+
+  /* WHAT CHANGES */
+  .changes { background: var(--cream); }
+  .changes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; margin-top: 3rem; }
+  .change-col h3 { font-size: 14px; font-weight: 500; margin-bottom: 1rem; padding-bottom: 10px; border-bottom: 0.5px solid var(--border); }
+  .change-col h3.will { color: var(--green); }
+  .change-col h3.needs { color: var(--muted); }
+  .change-item { display: flex; gap: 10px; align-items: flex-start; margin-bottom: 12px; }
+  .change-dot-green { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; margin-top: 6px; }
+  .change-dot-grey { width: 6px; height: 6px; border-radius: 50%; background: #ccc; flex-shrink: 0; margin-top: 6px; }
+  .change-item p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .honest-box { background: #fff; border-radius: 16px; padding: 1.5rem; border: 0.5px solid var(--border); margin-top: 2rem; }
+  .honest-box p { font-size: 14px; color: var(--muted); line-height: 1.8; font-style: italic; }
+
+  /* ABOUT */
+  .about { background: var(--dark); }
+  .about .section-title { color: #fff; }
+  .about-grid { display: grid; grid-template-columns: 1fr 1.6fr; gap: 5rem; align-items: start; margin-top: 3rem; }
+  .about-avatar { width: 100%; aspect-ratio: 3/4; border-radius: 24px; background: rgba(29,158,117,0.1); border: 0.5px solid rgba(29,158,117,0.2); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+  .avatar-initials { font-family: 'DM Serif Display', serif; font-size: 6rem; color: var(--green); opacity: 0.3; }
+  .about-quote { border-left: 3px solid var(--green); padding: 1rem 1.5rem; margin: 1.5rem 0; background: rgba(29,158,117,0.08); border-radius: 0 12px 12px 0; }
+  .about-quote p { font-size: 15px; color: rgba(255,255,255,0.8); line-height: 1.7; font-style: italic; }
+  .credentials { display: flex; flex-direction: column; gap: 10px; margin: 1.5rem 0; }
+  .cred-item { display: flex; align-items: center; gap: 10px; font-size: 14px; color: rgba(255,255,255,0.5); }
+  .cred-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+  .cred-item strong { color: rgba(255,255,255,0.8); font-weight: 500; }
+  .protocol-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 1.5rem; }
+  .protocol-item { background: rgba(255,255,255,0.04); border: 0.5px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 12px; }
+  .protocol-item-icon { font-size: 18px; margin-bottom: 6px; }
+  .protocol-item-text { font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.5; }
+  .protocol-item-streak { font-size: 11px; color: var(--green); font-weight: 500; margin-top: 4px; }
+
+  /* APPLY */
+  .apply { background: var(--cream); }
+  .apply-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; margin-top: 3rem; align-items: start; }
+  .apply-info { display: flex; flex-direction: column; gap: 1.5rem; }
+  .apply-point { display: flex; gap: 1rem; align-items: flex-start; padding-bottom: 1.5rem; border-bottom: 0.5px solid var(--border); }
+  .apply-point:last-child { border-bottom: none; }
+  .apply-icon { width: 36px; height: 36px; border-radius: 10px; background: var(--green-light); border: 0.5px solid rgba(29,158,117,0.2); display: flex; align-items: center; justify-content: center; font-size: 16px; flex-shrink: 0; }
+  .apply-point h4 { font-size: 14px; font-weight: 500; color: var(--text); margin-bottom: 4px; }
+  .apply-point p { font-size: 13px; color: var(--muted); line-height: 1.6; }
+  .form-card { background: var(--dark); border: 0.5px solid rgba(255,255,255,0.1); border-radius: 24px; padding: 2rem; }
+  .form-card h3 { font-family: 'DM Serif Display', serif; font-size: 22px; color: #fff; margin-bottom: 1.5rem; letter-spacing: -0.02em; }
+  .form-group { margin-bottom: 1.25rem; }
+  .form-label { font-size: 12px; font-weight: 500; color: rgba(255,255,255,0.5); margin-bottom: 6px; display: block; letter-spacing: 0.04em; text-transform: uppercase; }
+  .form-input { width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.06); border: 0.5px solid rgba(255,255,255,0.12); border-radius: 10px; font-size: 14px; color: #fff; font-family: 'DM Sans', sans-serif; transition: border-color 0.2s; outline: none; }
+  .form-input::placeholder { color: rgba(255,255,255,0.2); }
+  .form-input:focus { border-color: var(--green); }
+  .form-select { width: 100%; padding: 12px 16px; background: rgba(255,255,255,0.06); border: 0.5px solid rgba(255,255,255,0.12); border-radius: 10px; font-size: 14px; color: #fff; font-family: 'DM Sans', sans-serif; outline: none; cursor: pointer; appearance: none; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='rgba(255,255,255,0.3)' stroke-width='1.5' fill='none'/%3E%3C/svg%3E"); background-repeat: no-repeat; background-position: right 14px center; transition: border-color 0.2s; }
+  .form-select:focus { border-color: var(--green); }
+  .form-select option { background: #2C2C2A; color: #fff; }
+  .form-submit { width: 100%; padding: 14px; border-radius: 40px; background: var(--green); color: #fff; border: none; font-size: 15px; font-weight: 500; cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; margin-top: 0.5rem; }
+  .form-submit:hover { background: #5DCAA5; }
+  .form-note { font-size: 12px; color: rgba(255,255,255,0.3); text-align: center; margin-top: 10px; }
+  .success-msg { display: none; text-align: center; padding: 2rem; }
+  .success-check { font-size: 3rem; margin-bottom: 1rem; }
+  .success-msg h3 { font-family: 'DM Serif Display', serif; font-size: 22px; color: #fff; margin-bottom: 8px; }
+
+  footer { background: var(--dark); border-top: 0.5px solid rgba(255,255,255,0.06); padding: 2rem 3rem; text-align: center; font-size: 13px; color: rgba(255,255,255,0.25); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+  .reveal { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    .nav-links { display: none; }
+    section { padding: 4rem 1.5rem; }
+    .hero { padding: 7rem 1.5rem 4rem; }
+    .origin-grid, .why-grid, .about-grid, .apply-grid, .changes-grid { grid-template-columns: 1fr; gap: 2rem; }
+    .how-steps { grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .how-steps::before { display: none; }
+    .about-avatar { aspect-ratio: 2/1; }
+    .protocol-grid { grid-template-columns: 1fr 1fr; }
+    .science-strip .container { justify-content: center; gap: 3rem; }
+    footer { padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Neural Reset</div>
+  <div class="nav-links">
+    <a href="#why" class="nav-link">The science</a>
+    <a href="#challenges" class="nav-link">Challenges</a>
+    <a href="#how" class="nav-link">How it works</a>
+    <a href="#about" class="nav-link">About</a>
+  </div>
+  <a href="#apply" class="nav-cta">Apply free →</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg">
+    <div class="hero-circle hero-circle-1"></div>
+    <div class="hero-circle hero-circle-2"></div>
+    <div class="hero-grid"></div>
+  </div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Free 21-day neuroscience experiment</div>
+    <h1 class="hero-title">Your brain can change.<br><em>In 21 days.</em></h1>
+    <p class="hero-sub">This is not a motivation program. It is a neuroscience-backed experiment that builds the biological conditions for discipline — one small chosen habit at a time. You measure yourself before and after. The data does not lie.</p>
+    <div class="hero-actions">
+      <a href="#apply" class="btn-primary">Join the free challenge</a>
+      <a href="#how" class="btn-ghost">How it works ↓</a>
+    </div>
+  </div>
+  <div class="hero-stats">
+    <div><div class="stat-num">21</div><div class="stat-label">Days of practice</div></div>
+    <div><div class="stat-num">7</div><div class="stat-label">Measured dimensions</div></div>
+    <div><div class="stat-num">100%</div><div class="stat-label">Free to join</div></div>
+    <div><div class="stat-num">1</div><div class="stat-label">Habit. You choose it.</div></div>
+    <div><div class="stat-num">4+</div><div class="stat-label">Years lived by the guide</div></div>
+  </div>
+</section>
+
+<!-- ORIGIN STORY -->
+<section class="origin">
+  <div class="container">
+    <p class="section-label reveal">Where this began</p>
+    <h2 class="section-title reveal">This program was lived before it was taught</h2>
+    <div class="origin-grid reveal">
+      <div>
+        <div class="origin-quote">
+          <p>"You recycle knowledge at a remarkable level. If you do not know a subject, you cannot bring it out — and everything you teach, you have first lived."</p>
+          <cite>— Mamuka Guruli, founder of Magma.ge · 109-day challenge creator · mentor</cite>
+        </div>
+        <p style="font-size:14px;color:var(--muted);line-height:1.8;">My mentor Mamuka ran 109-day challenges that changed how I understood consistency. I experienced them from the inside — the fear of Day 7, the identity shift of Day 21, the person you become by Day 109. I know what it feels like to be the participant. That is why I built this program the way I did.</p>
+      </div>
+      <div>
+        <p class="section-label" style="margin-bottom:1rem">The journey that built this</p>
+        <div class="timeline">
+          <div class="timeline-item"><div class="timeline-dot"></div><p><strong>Experienced all of Mamuka's challenges</strong> — 48-day, 109-day, 109 mandala. Learned the methodology from the inside.</p></div>
+          <div class="timeline-item"><div class="timeline-dot"></div><p><strong>4+ years of daily fasting</strong> — no food after 6pm. BDNF, neuroplasticity, circadian regulation. Not a diet. A biological practice.</p></div>
+          <div class="timeline-item"><div class="timeline-dot"></div><p><strong>109+ day gratitude meditation streak</strong> — 7 minutes every morning. Rewiring the default mode network one day at a time.</p></div>
+          <div class="timeline-item"><div class="timeline-dot"></div><p><strong>MIT — Neuroscience for Business</strong> with Dr. Tara Swart. Understood the science behind what I was already doing.</p></div>
+          <div class="timeline-item"><div class="timeline-dot"></div><p><strong>Columbia University — Data Analysis.</strong> Learned to measure and visualize the change I was experiencing.</p></div>
+          <div class="timeline-item"><div class="timeline-dot"></div><p><strong>First group challenge — my birthday.</strong> 7 friends, 7 days, gratitude on paper, group chat. The pilot that proved the model works.</p></div>
+          <div class="timeline-item"><div class="timeline-dot"></div><p><strong>Now — the first official cohort.</strong> 21 days. Real data. Before and after. You are part of the research.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SCIENCE STRIP -->
+<div class="science-strip">
+  <div class="container">
+    <div class="science-fact"><div class="science-fact-num">+250%</div><div class="science-fact-label">dopamine baseline from cold exposure</div></div>
+    <div class="science-fact"><div class="science-fact-num">BDNF</div><div class="science-fact-label">neuroplasticity molecule — increased by fasting & exercise</div></div>
+    <div class="science-fact"><div class="science-fact-num">95%</div><div class="science-fact-label">of people think they are self-aware. Only 10–15% really are.</div></div>
+    <div class="science-fact"><div class="science-fact-num">42%</div><div class="science-fact-label">more likely to achieve goals when written down and shared</div></div>
+  </div>
+</div>
+
+<!-- WHY -->
+<section class="why" id="why">
+  <div class="container">
+    <p class="section-label reveal">The science</p>
+    <h2 class="section-title reveal">Why discipline breaks down — and how to actually fix it</h2>
+    <div class="why-grid reveal">
+      <div>
+        <div class="brain-card">
+          <span class="brain-card-tag tag-limbic">Limbic brain — survival mode</span>
+          <h3>Where most people are stuck</h3>
+          <p>Childhood patterns of inconsistency wire the brain to seek safety over growth. Procrastination, avoidance, and comfort habits are not character flaws — they are a nervous system doing exactly what it learned to do. You cannot think your way out of this.</p>
+        </div>
+        <div class="brain-arrow">↓</div>
+        <div class="brain-card">
+          <span class="brain-card-tag tag-pfc">Prefrontal cortex — growth mode</span>
+          <h3>Where discipline actually lives</h3>
+          <p>Planning, follow-through, and self-awareness live here. The PFC is depletable — willpower tires. When it weakens, the limbic pull toward comfort wins. The goal is not stronger willpower. It is habits so rooted in identity that the PFC barely has to work.</p>
+        </div>
+      </div>
+      <div class="why-text">
+        <p style="font-size:1.05rem;color:var(--muted);line-height:1.8;margin-bottom:1rem;font-weight:300;">Most productivity advice gives <strong style="color:var(--text);font-weight:500;">PFC-level solutions to limbic-level problems.</strong> That is why it never sticks. You need to change the biology first.</p>
+        <div class="why-point">
+          <div class="why-num">1</div>
+          <div class="why-point-text">
+            <h4>It is not a willpower problem</h4>
+            <p>Willpower lives in the PFC and fatigues with use. When stressed or depleted, the limbic brain wins. The solution is not discipline — it is building habits that become automatic through neuroplasticity.</p>
+          </div>
+        </div>
+        <div class="why-point">
+          <div class="why-num">2</div>
+          <div class="why-point-text">
+            <h4>Small habits create new neurons</h4>
+            <p>BDNF — the molecule of neuroplasticity — increases with exercise, fasting, and consistent daily practice. You literally grow new brain capacity. Dr. Tara Swart's MIT research confirms this is the foundation of sustainable change.</p>
+          </div>
+        </div>
+        <div class="why-point">
+          <div class="why-num">3</div>
+          <div class="why-point-text">
+            <h4>Identity follows evidence</h4>
+            <p>Every day you complete your challenge, you collect biological proof that you are someone who follows through. That evidence — not motivation — is what rewires your self-concept. 21 days of proof changes how your brain sees you.</p>
+          </div>
+        </div>
+        <div class="why-point">
+          <div class="why-num">4</div>
+          <div class="why-point-text">
+            <h4>The group makes it stick</h4>
+            <p>Shared daily check-ins release oxytocin — the bonding hormone. Social accountability activates the same neural network as parental care. The group is not just motivation. It is neuroscience.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CHALLENGES -->
+<section class="challenges" id="challenges">
+  <div class="container">
+    <p class="section-label reveal" style="color:rgba(29,158,117,0.8)">Choose your challenge</p>
+    <h2 class="section-title reveal">One habit. You pick it.</h2>
+    <p class="section-body reveal">Each challenge targets a specific neurological mechanism. Choosing your own habit is itself a PFC act — autonomy reduces threat response and increases commitment from Day 1.</p>
+    <div class="challenge-grid reveal">
+      <div class="challenge-item">
+        <div class="challenge-icon">🙏</div>
+        <h3>Gratitude journaling</h3>
+        <p>5 minutes daily. Write by hand. Share in the group.</p>
+        <p class="challenge-science">Rewires default mode network</p>
+      </div>
+      <div class="challenge-item">
+        <div class="challenge-icon">🌙</div>
+        <h3>Fasting after 6pm</h3>
+        <p>No food after 6pm. One rule, every day for 21 days.</p>
+        <p class="challenge-science">Increases BDNF + neuroplasticity</p>
+      </div>
+      <div class="challenge-item">
+        <div class="challenge-icon">🚶</div>
+        <h3>Walk or run 15 min</h3>
+        <p>Minimum 15 minutes of movement, every single day.</p>
+        <p class="challenge-science">Grows hippocampus volume</p>
+      </div>
+      <div class="challenge-item">
+        <div class="challenge-icon">🧘</div>
+        <h3>Yoga 10 min daily</h3>
+        <p>10 minutes of yoga. Reduces cortisol, activates vagus nerve.</p>
+        <p class="challenge-science">Activates vagus nerve</p>
+      </div>
+      <div class="challenge-item">
+        <div class="challenge-icon">🚿</div>
+        <h3>Contrast shower</h3>
+        <p>End every shower with 30–60 seconds of cold water.</p>
+        <p class="challenge-science">+250% dopamine baseline</p>
+      </div>
+      <div class="challenge-item">
+        <div class="challenge-icon">🧠</div>
+        <h3>Meditation 7 min</h3>
+        <p>7 minutes of quiet, focused meditation each morning.</p>
+        <p class="challenge-science">Builds prefrontal thickness</p>
+      </div>
+      <div class="challenge-item">
+        <div class="challenge-icon">🍬</div>
+        <h3>No sugar</h3>
+        <p>Zero added sugar for 21 days. Reset your reward system.</p>
+        <p class="challenge-science">Resets dopamine reward circuitry</p>
+      </div>
+      <div class="challenge-item">
+        <div class="challenge-icon">📵</div>
+        <h3>No phone first 30 min</h3>
+        <p>Phone down for the first 30 minutes of your day.</p>
+        <p class="challenge-science">Cortisol regulation + focus</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="container">
+    <p class="section-label reveal">The process</p>
+    <h2 class="section-title reveal">How the experiment works</h2>
+    <p class="section-body reveal">This is a real experiment. You measure yourself before and after across 7 dimensions — so you see the change in data, not just feelings. Your anonymous results contribute to group research.</p>
+    <div class="how-steps reveal">
+      <div class="how-step">
+        <div class="step-num">1</div>
+        <h3>Apply & choose</h3>
+        <p>Fill in the form. Pick your challenge. Complete your Day 0 baseline across 7 dimensions.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">2</div>
+        <h3>Live orientation</h3>
+        <p>Join the live session before Day 1. Meet the group. Understand the neuroscience. Make your commitment public.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">3</div>
+        <h3>Daily check-in</h3>
+        <p>60 seconds each day. Log completion, mood, and energy. Post in the group — one line is enough.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">4</div>
+        <h3>Weekly brain video</h3>
+        <p>Each week a short video explains what your nervous system is doing — so you understand the why, not just the what.</p>
+      </div>
+      <div class="how-step">
+        <div class="step-num">5</div>
+        <h3>Day 21 data reveal</h3>
+        <p>Retake the assessment. See your before vs after in real charts. Your data, your transformation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WHAT CHANGES -->
+<section class="changes">
+  <div class="container">
+    <p class="section-label reveal">Honest expectations</p>
+    <h2 class="section-title reveal">What 21 days will — and will not — do</h2>
+    <p class="section-body reveal">Science shows 21 days is not enough to fully automate a habit. But it is enough to start the biological process and collect your first real evidence of change. That evidence is what most people have never had.</p>
+    <div class="changes-grid reveal">
+      <div class="change-col">
+        <h3 class="will">What will likely shift</h3>
+        <div class="change-item"><div class="change-dot-green"></div><p>Mood baseline — noticeable within 7–10 days as the nervous system begins to regulate</p></div>
+        <div class="change-item"><div class="change-dot-green"></div><p>Self-awareness — you will start noticing your patterns and triggers more clearly</p></div>
+        <div class="change-item"><div class="change-dot-green"></div><p>Energy levels — especially with fasting, movement, or cold exposure challenges</p></div>
+        <div class="change-item"><div class="change-dot-green"></div><p>Follow-through identity — "I am someone who does this" — the most important shift of all</p></div>
+        <div class="change-item"><div class="change-dot-green"></div><p>Stress recovery speed — measurably faster by Day 21 in most participants</p></div>
+      </div>
+      <div class="change-col">
+        <h3 class="needs">What needs more time</h3>
+        <div class="change-item"><div class="change-dot-grey"></div><p>Full habit automaticity — research suggests 60–90 days for true neural automation</p></div>
+        <div class="change-item"><div class="change-dot-grey"></div><p>Deep identity change — months of accumulated evidence, not weeks</p></div>
+        <div class="change-item"><div class="change-dot-grey"></div><p>Eliminating limbic defaults completely — an ongoing, lifelong practice</p></div>
+        <div class="change-item"><div class="change-dot-grey"></div><p>Nervous system rewiring from complex trauma patterns — years, not days</p></div>
+      </div>
+    </div>
+    <div class="honest-box reveal">
+      <p>"21 days will not rewire your brain completely. But it will give you the first real evidence — in your own data — that change is biologically possible for you. That evidence is what most people have never had. And once you have it, everything changes."</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about" id="about">
+  <div class="container">
+    <p class="section-label reveal" style="color:rgba(29,158,117,0.8)">Your guide</p>
+    <div class="about-grid reveal">
+      <div class="about-avatar">
+        <div class="avatar-initials">NR</div>
+      </div>
+      <div>
+        <h2 class="section-title" style="color:#fff;margin-bottom:1rem">I teach what I live every day</h2>
+        <p style="font-size:1rem;color:rgba(255,255,255,0.5);line-height:1.8;margin-bottom:1.5rem;font-weight:300;">I am not a motivational speaker. I am someone who spent years understanding why my own discipline kept failing — and then rebuilt it from the neuroscience up. I do not teach anything I have not first made my own.</p>
+        <div class="about-quote">
+          <p>"Discipline is not a character trait. It is a biological skill. And anyone can build it — once they understand what is actually happening in their nervous system."</p>
+        </div>
+        <div class="credentials">
+          <div class="cred-item"><span class="cred-dot"></span><span><strong>MIT</strong> — Neuroscience for Business · Dr. Tara Swart</span></div>
+          <div class="cred-item"><span class="cred-dot"></span><span><strong>Columbia University</strong> — Data Analysis · measuring real change</span></div>
+          <div class="cred-item"><span class="cred-dot"></span><span><strong>Former professor</strong> · Kutaisi International University · accounting & finance</span></div>
+          <div class="cred-item"><span class="cred-dot"></span><span>Participant in <strong>Mamuka Guruli's</strong> 48-day, 109-day & mandala challenges · Magma.ge</span></div>
+          <div class="cred-item"><span class="cred-dot"></span><span>Influenced by <strong>Tim Fletcher</strong> on trauma & the nervous system, <strong>Carl Jung</strong> on the unconscious, <strong>Vadim Zeland</strong> on attention & intention</span></div>
+        </div>
+        <p class="section-label" style="margin-bottom:1rem;margin-top:1.5rem">My daily protocol — lived for 4+ years</p>
+        <div class="protocol-grid">
+          <div class="protocol-item">
+            <div class="protocol-item-icon">🚿</div>
+            <div class="protocol-item-text">Contrast shower every morning</div>
+            <div class="protocol-item-streak">Daily · 4+ years</div>
+          </div>
+          <div class="protocol-item">
+            <div class="protocol-item-icon">🙏</div>
+            <div class="protocol-item-text">Gratitude meditation · 7 min</div>
+            <div class="protocol-item-streak">109+ day streak</div>
+          </div>
+          <div class="protocol-item">
+            <div class="protocol-item-icon">🌙</div>
+            <div class="protocol-item-text">Fasting — no food after 6pm</div>
+            <div class="protocol-item-streak">Daily · 4+ years</div>
+          </div>
+          <div class="protocol-item">
+            <div class="protocol-item-icon">🏃</div>
+            <div class="protocol-item-text">Gym · swimming · running · tennis</div>
+            <div class="protocol-item-streak">Consistent movement daily</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DAY 0 ASSESSMENT -->
+<section style="background:#fff;padding:6rem 3rem" id="assessment">
+  <div class="container">
+    <p class="section-label reveal">Try it now</p>
+    <h2 class="section-title reveal">Where are you today?</h2>
+    <p class="section-body reveal">This is your Day 0 baseline — the same assessment every participant completes before starting. Rate yourself honestly. See your nervous system profile instantly.</p>
+
+    <div class="reveal" style="margin-top:3rem;background:var(--dark);border-radius:24px;padding:2.5rem;max-width:720px">
+
+      <!-- Step 1: Challenge -->
+      <div id="as-step1">
+        <p style="font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(29,158,117,0.8);margin-bottom:1rem">Step 1 — Choose your challenge</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:2rem" id="as-chal-group">
+          <div class="as-chip" onclick="asPickChallenge(this,'Gratitude journaling')">Gratitude journaling</div>
+          <div class="as-chip" onclick="asPickChallenge(this,'Fasting after 6pm')">Fasting after 6pm</div>
+          <div class="as-chip" onclick="asPickChallenge(this,'No sugar')">No sugar</div>
+          <div class="as-chip" onclick="asPickChallenge(this,'Walk / run 15 min')">Walk / run 15 min</div>
+          <div class="as-chip" onclick="asPickChallenge(this,'Yoga 10 min')">Yoga 10 min</div>
+          <div class="as-chip" onclick="asPickChallenge(this,'Contrast shower')">Contrast shower</div>
+          <div class="as-chip" onclick="asPickChallenge(this,'No phone first 30 min')">No phone first 30 min</div>
+          <div class="as-chip" onclick="asPickChallenge(this,'Meditation 7 min')">Meditation 7 min</div>
+        </div>
+
+        <p style="font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(29,158,117,0.8);margin-bottom:1.25rem">Step 2 — Rate yourself honestly (1–10)</p>
+
+        <div class="as-q"><p class="as-ql">Follow-through on your own intentions</p>
+          <div class="as-sr"><input type="range" min="1" max="10" value="5" class="as-range" oninput="asUpd(this)"><span class="as-sv">5</span></div>
+          <div class="as-ends"><span>Never follow through</span><span>Always follow through</span></div></div>
+
+        <div class="as-q"><p class="as-ql">How quickly you recover after stress</p>
+          <div class="as-sr"><input type="range" min="1" max="10" value="5" class="as-range" oninput="asUpd(this)"><span class="as-sv">5</span></div>
+          <div class="as-ends"><span>Days to recover</span><span>Minutes to recover</span></div></div>
+
+        <div class="as-q"><p class="as-ql">Resistance to comfort habits under stress</p>
+          <p style="font-size:12px;color:rgba(255,255,255,0.3);margin-bottom:8px">e.g. scrolling, snacking, avoiding tasks</p>
+          <div class="as-sr"><input type="range" min="1" max="10" value="5" class="as-range" oninput="asUpd(this)"><span class="as-sv">5</span></div>
+          <div class="as-ends"><span>Always reach for comfort</span><span>Rarely reach for comfort</span></div></div>
+
+        <div class="as-q"><p class="as-ql">Emotional awareness in real time</p>
+          <div class="as-sr"><input type="range" min="1" max="10" value="5" class="as-range" oninput="asUpd(this)"><span class="as-sv">5</span></div>
+          <div class="as-ends"><span>Rarely aware</span><span>Fully aware</span></div></div>
+
+        <div class="as-q"><p class="as-ql">Daily energy level</p>
+          <div class="as-sr"><input type="range" min="1" max="10" value="5" class="as-range" oninput="asUpd(this)"><span class="as-sv">5</span></div>
+          <div class="as-ends"><span>Exhausted</span><span>Consistently high</span></div></div>
+
+        <div class="as-q"><p class="as-ql">Sleep quality</p>
+          <div class="as-sr"><input type="range" min="1" max="10" value="5" class="as-range" oninput="asUpd(this)"><span class="as-sv">5</span></div>
+          <div class="as-ends"><span>Very poor</span><span>Excellent</span></div></div>
+
+        <div class="as-q"><p class="as-ql">Sense of self-awareness and understanding of your own patterns</p>
+          <div class="as-sr"><input type="range" min="1" max="10" value="5" class="as-range" oninput="asUpd(this)"><span class="as-sv">5</span></div>
+          <div class="as-ends"><span>No idea</span><span>Very clearly</span></div></div>
+
+        <button onclick="asShowResults()" style="width:100%;padding:13px;border-radius:40px;background:var(--green);color:#fff;border:none;font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:1.5rem;transition:background 0.2s" onmouseover="this.style.background='#5DCAA5'" onmouseout="this.style.background='#1D9E75'">See my baseline profile →</button>
+      </div>
+
+      <!-- Results -->
+      <div id="as-results" style="display:none">
+        <p style="font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(29,158,117,0.8);margin-bottom:1.5rem">Your day 0 baseline</p>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:1.5rem" id="as-metrics"></div>
+
+        <div style="border-top:0.5px solid rgba(255,255,255,0.08);padding-top:1.5rem;margin-bottom:1.5rem">
+          <p style="font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:1rem">Score breakdown</p>
+          <div id="as-bars"></div>
+        </div>
+
+        <div id="as-insight-box"></div>
+
+        <div style="background:rgba(29,158,117,0.1);border:0.5px solid rgba(29,158,117,0.3);border-radius:14px;padding:1.25rem;margin-top:1.5rem;display:flex;align-items:center;gap:14px">
+          <div style="width:44px;height:44px;border-radius:50%;background:#1D9E75;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-family:'DM Serif Display',serif;font-size:16px;color:#fff">21</div>
+          <div>
+            <p style="font-size:14px;font-weight:500;color:#5DCAA5;margin:0 0 3px" id="as-chal-display">Your chosen challenge</p>
+            <p style="font-size:12px;color:rgba(255,255,255,0.4);margin:0">Apply below to start Day 1 — and receive your Day 21 comparison report</p>
+          </div>
+        </div>
+
+        <a href="#apply" style="display:block;width:100%;padding:13px;border-radius:40px;background:var(--green);color:#fff;border:none;font-size:15px;font-weight:500;cursor:pointer;font-family:'DM Sans',sans-serif;margin-top:1.25rem;text-align:center;text-decoration:none">Apply for the free challenge →</a>
+        <p style="font-size:12px;color:rgba(255,255,255,0.25);text-align:center;margin-top:8px">These scores are saved with your application as your Day 0 data</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .as-chip { padding:7px 14px;border-radius:20px;border:0.5px solid rgba(255,255,255,0.15);font-size:13px;cursor:pointer;color:rgba(255,255,255,0.5);background:transparent;transition:all 0.15s; }
+  .as-chip.active { background:rgba(29,158,117,0.2);border-color:#1D9E75;color:#5DCAA5; }
+  .as-q { margin-bottom:1.25rem; }
+  .as-ql { font-size:14px;font-weight:500;color:rgba(255,255,255,0.8);margin:0 0 8px; }
+  .as-sr { display:flex;align-items:center;gap:12px; }
+  .as-sr input[type=range] { flex:1;accent-color:#1D9E75; }
+  .as-sv { font-size:15px;font-weight:500;color:#fff;min-width:20px; }
+  .as-ends { display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.25);margin-top:3px; }
+  .as-metric { background:rgba(255,255,255,0.05);border-radius:12px;padding:12px; }
+  .as-metric-label { font-size:11px;color:rgba(255,255,255,0.4);margin:0 0 4px; }
+  .as-metric-val { font-size:20px;font-weight:500;color:#fff;margin:0; }
+  .as-metric-sub { font-size:10px;color:rgba(255,255,255,0.3);margin:3px 0 0; }
+  .as-bar-row { display:flex;align-items:center;gap:10px;margin-bottom:8px; }
+  .as-bar-label { font-size:12px;color:rgba(255,255,255,0.4);width:130px;flex-shrink:0; }
+  .as-bar-track { flex:1;height:6px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden; }
+  .as-bar-fill { height:100%;border-radius:3px;background:#1D9E75;transition:width 0.8s ease; }
+  .as-bar-num { font-size:12px;font-weight:500;color:rgba(255,255,255,0.6);width:20px;text-align:right; }
+  .as-insight { background:rgba(29,158,117,0.08);border-left:2px solid #1D9E75;border-radius:0 10px 10px 0;padding:10px 14px;margin-bottom:8px; }
+  .as-insight-title { font-size:12px;font-weight:500;color:#5DCAA5;margin:0 0 3px; }
+  .as-insight-text { font-size:12px;color:rgba(255,255,255,0.45);margin:0;line-height:1.5; }
+</style>
+
+<script>
+  var asChallenge = '';
+  function asPickChallenge(el, val) {
+    document.querySelectorAll('#as-chal-group .as-chip').forEach(c => c.classList.remove('active'));
+    el.classList.add('active'); asChallenge = val;
+  }
+  function asUpd(el) { el.nextElementSibling.textContent = el.value; }
+  function asShowResults() {
+    var ranges = document.querySelectorAll('#as-step1 .as-range');
+    var vals = Array.from(ranges).map(r => parseInt(r.value));
+    var labels = ['Follow-through','Stress recovery','Comfort resistance','Emotional awareness','Daily energy','Sleep quality','Self-awareness'];
+    var avg = Math.round(vals.reduce((a,b)=>a+b,0)/vals.length);
+    var selfReg = Math.round((vals[0]+vals[1]+vals[2])/3);
+    var selfAware = Math.round((vals[3]+vals[6])/2);
+    var energy = Math.round((vals[4]+vals[5])/2);
+
+    function scoreLabel(n) {
+      if(n<=3) return 'Strong limbic default';
+      if(n<=5) return 'Developing PFC access';
+      if(n<=7) return 'Moderate PFC engagement';
+      return 'Strong PFC baseline';
+    }
+
+    document.getElementById('as-metrics').innerHTML = [
+      {l:'Overall baseline',v:avg+'/10',s:scoreLabel(avg)},
+      {l:'Self-regulation',v:selfReg+'/10',s:'PFC access indicator'},
+      {l:'Self-awareness',v:selfAware+'/10',s:'Interoception score'},
+      {l:'Energy & body',v:energy+'/10',s:'Nervous system baseline'},
+    ].map(m=>`<div class="as-metric"><p class="as-metric-label">${m.l}</p><p class="as-metric-val">${m.v}</p><p class="as-metric-sub">${m.s}</p></div>`).join('');
+
+    document.getElementById('as-bars').innerHTML = labels.map((l,i)=>`
+      <div class="as-bar-row">
+        <span class="as-bar-label">${l}</span>
+        <div class="as-bar-track"><div class="as-bar-fill" style="width:${vals[i]*10}%"></div></div>
+        <span class="as-bar-num">${vals[i]}</span>
+      </div>`).join('');
+
+    var insights = [];
+    if(vals[0]<=4) insights.push({t:'Low follow-through score',b:'This is not a willpower problem — it is a nervous system pattern. Your 21-day challenge begins building the neural evidence that you are someone who follows through.'});
+    if(vals[1]<=4) insights.push({t:'Slow stress recovery',b:'Your vagus nerve tone may be low. The daily habit practice will directly strengthen your parasympathetic response over 21 days.'});
+    if(vals[3]<=4) insights.push({t:'Low emotional awareness',b:'Interoception — body-based self-awareness — is a trainable skill. Journaling and movement challenges accelerate this significantly.'});
+    if(energy<=4) insights.push({t:'Low energy baseline',b:'Sleep and energy are foundational. Without this layer, all other habits become harder. This is worth tracking closely over 21 days.'});
+    if(insights.length===0) insights.push({t:'Strong baseline',b:'You are starting from a position of real self-awareness. Your 21-day data will show how even a strong baseline shifts measurably with consistent practice.'});
+    document.getElementById('as-insight-box').innerHTML = insights.map(m=>`<div class="as-insight"><p class="as-insight-title">${m.t}</p><p class="as-insight-text">${m.b}</p></div>`).join('');
+
+    document.getElementById('as-chal-display').textContent = asChallenge || 'Choose your challenge above';
+    document.getElementById('as-step1').style.display='none';
+    document.getElementById('as-results').style.display='block';
+  }
+</script>
+
+<!-- APPLY -->
+<section class="apply" id="apply">
+  <div class="container">
+    <p class="section-label reveal">Join the experiment</p>
+    <h2 class="section-title reveal">Apply for the free challenge</h2>
+    <p class="section-body reveal">Spots are limited to keep the group small and the data meaningful. First cohort. First results. Be part of the research.</p>
+    <div class="apply-grid reveal">
+      <div class="apply-info">
+        <div class="apply-point">
+          <div class="apply-icon">🎙️</div>
+          <div>
+            <h4>Live orientation before Day 1</h4>
+            <p>Join a live session where you learn the neuroscience, meet the group, and make your challenge commitment publicly. This is where the accountability begins.</p>
+          </div>
+        </div>
+        <div class="apply-point">
+          <div class="apply-icon">📋</div>
+          <div>
+            <h4>Complete a Day 0 baseline</h4>
+            <p>Rate yourself across 7 dimensions — follow-through, self-awareness, energy, stress recovery, and more. This is your starting data point.</p>
+          </div>
+        </div>
+        <div class="apply-point">
+          <div class="apply-icon">📅</div>
+          <div>
+            <h4>21 days — one habit, daily</h4>
+            <p>The daily check-in takes 60 seconds. Post your completion in the group. The science — and the community — does the rest.</p>
+          </div>
+        </div>
+        <div class="apply-point">
+          <div class="apply-icon">🎥</div>
+          <div>
+            <h4>Three weekly brain videos</h4>
+            <p>Week 1: Why you will want to quit — and what is happening in your brain. Week 2: How myelination is building your new wiring. Week 3: Identity, epigenetics, and who you are becoming.</p>
+          </div>
+        </div>
+        <div class="apply-point">
+          <div class="apply-icon">📊</div>
+          <div>
+            <h4>Personal before/after data report</h4>
+            <p>On Day 21 you retake the assessment and receive your own chart — 7 dimensions, before and after, in numbers.</p>
+          </div>
+        </div>
+        <div class="apply-point">
+          <div class="apply-icon">💚</div>
+          <div>
+            <h4>Completely free</h4>
+            <p>No payment. No catch. Your anonymous data contributes to the first group research report — published after the cohort completes.</p>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="form-card" id="form-card">
+          <h3>Apply now</h3>
+          <div class="form-group">
+            <label class="form-label">Full name</label>
+            <input type="text" class="form-input" placeholder="Your name" id="f-name">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email address</label>
+            <input type="email" class="form-input" placeholder="your@email.com" id="f-email">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Your background</label>
+            <select class="form-select" id="f-role">
+              <option value="">Select your role</option>
+              <option>Executive / Senior manager</option>
+              <option>Entrepreneur / Founder</option>
+              <option>Professional (finance, law, medicine)</option>
+              <option>University student</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Your chosen challenge</label>
+            <select class="form-select" id="f-challenge">
+              <option value="">Select your challenge</option>
+              <option>Gratitude journaling — 5 min daily</option>
+              <option>Fasting after 6pm</option>
+              <option>Walk or run — 15 min daily</option>
+              <option>Yoga — 10 min daily</option>
+              <option>Contrast shower daily</option>
+              <option>Meditation — 7 min daily</option>
+              <option>No sugar for 21 days</option>
+              <option>No phone first 30 min</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Why do you want to join? (optional)</label>
+            <textarea class="form-input" rows="3" placeholder="What brought you here?" id="f-why" style="resize:vertical"></textarea>
+          </div>
+          <button class="form-submit" onclick="submitForm()">Start my 21-day experiment →</button>
+          <p class="form-note">Your data is anonymous in research. You can unsubscribe anytime.</p>
+        </div>
+        <div class="success-msg" id="success-msg">
+          <div class="success-check">✓</div>
+          <h3>You are in.</h3>
+          <p style="color:rgba(255,255,255,0.5);margin-top:8px">Check your email for the orientation session details and your Day 0 assessment link. Your 21-day experiment starts now.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>21-Day Neural Reset · Free neuroscience experiment in habit formation · Built on MIT science, lived experience, Columbia data analysis, and real results.</p>
+</footer>
+
+<script>
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) setTimeout(() => e.target.classList.add('visible'), i * 80);
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(r => observer.observe(r));
+
+  function submitForm() {
+    const name = document.getElementById('f-name').value.trim();
+    const email = document.getElementById('f-email').value.trim();
+    const challenge = document.getElementById('f-challenge').value;
+    if (!name || !email || !challenge) { alert('Please fill in your name, email, and choose a challenge.'); return; }
+    document.getElementById('form-card').style.display = 'none';
+    document.getElementById('success-msg').style.display = 'block';
+  }
+</script>
+</body>
+</html>
