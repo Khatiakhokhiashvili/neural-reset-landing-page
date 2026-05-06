@@ -773,50 +773,64 @@
       <div>
         <div class="form-card" id="form-card">
           <h3>Apply now</h3>
-          <div class="form-group">
-            <label class="form-label">Full name</label>
-            <input type="text" class="form-input" placeholder="Your name" id="f-name">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Email address</label>
-            <input type="email" class="form-input" placeholder="your@email.com" id="f-email">
-          </div>
-          <div class="form-group">
-            <label class="form-label">Your background</label>
-            <select class="form-select" id="f-role">
-              <option value="">Select your role</option>
-              <option>Executive / Senior manager</option>
-              <option>Entrepreneur / Founder</option>
-              <option>Professional (finance, law, medicine)</option>
-              <option>University student</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Your chosen challenge</label>
-            <select class="form-select" id="f-challenge">
-              <option value="">Select your challenge</option>
-              <option>Gratitude journaling — 5 min daily</option>
-              <option>Fasting after 6pm</option>
-              <option>Walk or run — 15 min daily</option>
-              <option>Yoga — 10 min daily</option>
-              <option>Contrast shower daily</option>
-              <option>Meditation — 7 min daily</option>
-              <option>No sugar for 21 days</option>
-              <option>No phone first 30 min</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label class="form-label">Why do you want to join? (optional)</label>
-            <textarea class="form-input" rows="3" placeholder="What brought you here?" id="f-why" style="resize:vertical"></textarea>
-          </div>
-          <button class="form-submit" onclick="submitForm()">Start my 21-day experiment →</button>
-          <p class="form-note">Your data is anonymous in research. You can unsubscribe anytime.</p>
+          <form id="apply-form" action="https://formspree.io/f/xvzlqolv" method="POST">
+
+            <!-- Hidden Day 0 score fields — filled automatically from the assessment -->
+            <input type="hidden" name="Day0_Followthrough" id="hid-s1" value="not completed">
+            <input type="hidden" name="Day0_StressRecovery" id="hid-s2" value="not completed">
+            <input type="hidden" name="Day0_ComfortResistance" id="hid-s3" value="not completed">
+            <input type="hidden" name="Day0_EmotionalAwareness" id="hid-s4" value="not completed">
+            <input type="hidden" name="Day0_DailyEnergy" id="hid-s5" value="not completed">
+            <input type="hidden" name="Day0_SleepQuality" id="hid-s6" value="not completed">
+            <input type="hidden" name="Day0_SelfAwareness" id="hid-s7" value="not completed">
+            <input type="hidden" name="Day0_OverallScore" id="hid-overall" value="not completed">
+            <input type="hidden" name="Day0_AssessmentChallenge" id="hid-aschal" value="not selected">
+
+            <div class="form-group">
+              <label class="form-label">Full name</label>
+              <input type="text" name="Full_Name" class="form-input" placeholder="Your name" id="f-name" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Email address</label>
+              <input type="email" name="email" class="form-input" placeholder="your@email.com" id="f-email" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Your background</label>
+              <select name="Background" class="form-select" id="f-role">
+                <option value="">Select your role</option>
+                <option>Executive / Senior manager</option>
+                <option>Entrepreneur / Founder</option>
+                <option>Professional (finance, law, medicine)</option>
+                <option>University student</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Your chosen challenge</label>
+              <select name="Chosen_Challenge" class="form-select" id="f-challenge" required>
+                <option value="">Select your challenge</option>
+                <option>Gratitude journaling — 5 min daily</option>
+                <option>Fasting after 6pm</option>
+                <option>Walk or run — 15 min daily</option>
+                <option>Yoga — 10 min daily</option>
+                <option>Contrast shower daily</option>
+                <option>Meditation — 7 min daily</option>
+                <option>No sugar for 21 days</option>
+                <option>No phone first 30 min</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Why do you want to join? (optional)</label>
+              <textarea name="Why_Join" class="form-input" rows="3" placeholder="What brought you here?" id="f-why" style="resize:vertical"></textarea>
+            </div>
+            <button type="submit" class="form-submit" id="submit-btn">Start my 21-day experiment →</button>
+            <p class="form-note">Your data is anonymous in research. You can unsubscribe anytime.</p>
+          </form>
         </div>
         <div class="success-msg" id="success-msg">
           <div class="success-check">✓</div>
           <h3>You are in.</h3>
-          <p style="color:rgba(255,255,255,0.5);margin-top:8px">Check your email for the orientation session details and your Day 0 assessment link. Your 21-day experiment starts now.</p>
+          <p style="color:rgba(255,255,255,0.5);margin-top:8px">Check your email for the orientation session details. Your 21-day experiment starts now.</p>
         </div>
       </div>
     </div>
@@ -828,6 +842,7 @@
 </footer>
 
 <script>
+  // Scroll reveal
   const reveals = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
@@ -836,14 +851,90 @@
   }, { threshold: 0.1 });
   reveals.forEach(r => observer.observe(r));
 
-  function submitForm() {
+  // When assessment results are shown — push scores into hidden form fields
+  var asScoreVals = [];
+  var origAsShowResults = asShowResults;
+  function asShowResults() {
+    var ranges = document.querySelectorAll('#as-step1 .as-range');
+    asScoreVals = Array.from(ranges).map(r => parseInt(r.value));
+    var avg = Math.round(asScoreVals.reduce((a,b)=>a+b,0)/asScoreVals.length);
+    // Push into hidden fields
+    var ids = ['hid-s1','hid-s2','hid-s3','hid-s4','hid-s5','hid-s6','hid-s7'];
+    asScoreVals.forEach((v,i) => {
+      var el = document.getElementById(ids[i]);
+      if(el) el.value = v;
+    });
+    document.getElementById('hid-overall').value = avg;
+    document.getElementById('hid-aschal').value = asChallenge || 'not selected';
+
+    // Run the original display logic
+    var labels = ['Follow-through','Stress recovery','Comfort resistance','Emotional awareness','Daily energy','Sleep quality','Self-awareness'];
+    var selfReg = Math.round((asScoreVals[0]+asScoreVals[1]+asScoreVals[2])/3);
+    var selfAware = Math.round((asScoreVals[3]+asScoreVals[6])/2);
+    var energy = Math.round((asScoreVals[4]+asScoreVals[5])/2);
+    function scoreLabel(n) {
+      if(n<=3) return 'Strong limbic default';
+      if(n<=5) return 'Developing PFC access';
+      if(n<=7) return 'Moderate PFC engagement';
+      return 'Strong PFC baseline';
+    }
+    document.getElementById('as-metrics').innerHTML = [
+      {l:'Overall baseline',v:avg+'/10',s:scoreLabel(avg)},
+      {l:'Self-regulation',v:selfReg+'/10',s:'PFC access indicator'},
+      {l:'Self-awareness',v:selfAware+'/10',s:'Interoception score'},
+      {l:'Energy & body',v:energy+'/10',s:'Nervous system baseline'},
+    ].map(m=>`<div class="as-metric"><p class="as-metric-label">${m.l}</p><p class="as-metric-val">${m.v}</p><p class="as-metric-sub">${m.s}</p></div>`).join('');
+    document.getElementById('as-bars').innerHTML = labels.map((l,i)=>`
+      <div class="as-bar-row">
+        <span class="as-bar-label">${l}</span>
+        <div class="as-bar-track"><div class="as-bar-fill" style="width:${asScoreVals[i]*10}%"></div></div>
+        <span class="as-bar-num">${asScoreVals[i]}</span>
+      </div>`).join('');
+    var insights = [];
+    if(asScoreVals[0]<=4) insights.push({t:'Low follow-through score',b:'This is not a willpower problem — it is a nervous system pattern. Your 21-day challenge begins building the neural evidence that you are someone who follows through.'});
+    if(asScoreVals[1]<=4) insights.push({t:'Slow stress recovery',b:'Your vagus nerve tone may be low. The daily habit practice will directly strengthen your parasympathetic response over 21 days.'});
+    if(asScoreVals[3]<=4) insights.push({t:'Low emotional awareness',b:'Interoception — body-based self-awareness — is a trainable skill. Journaling and movement challenges accelerate this significantly.'});
+    if(energy<=4) insights.push({t:'Low energy baseline',b:'Sleep and energy are foundational. Without this layer, all other habits become harder. This is worth tracking closely over 21 days.'});
+    if(insights.length===0) insights.push({t:'Strong baseline',b:'You are starting from a position of real self-awareness. Your 21-day data will show how even a strong baseline shifts measurably with consistent practice.'});
+    document.getElementById('as-insight-box').innerHTML = insights.map(m=>`<div class="as-insight"><p class="as-insight-title">${m.t}</p><p class="as-insight-text">${m.b}</p></div>`).join('');
+    document.getElementById('as-chal-display').textContent = asChallenge || 'Choose your challenge above';
+    document.getElementById('as-step1').style.display='none';
+    document.getElementById('as-results').style.display='block';
+  }
+
+  // Handle Formspree submission via fetch so we control the success state
+  document.getElementById('apply-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
     const name = document.getElementById('f-name').value.trim();
     const email = document.getElementById('f-email').value.trim();
     const challenge = document.getElementById('f-challenge').value;
-    if (!name || !email || !challenge) { alert('Please fill in your name, email, and choose a challenge.'); return; }
-    document.getElementById('form-card').style.display = 'none';
-    document.getElementById('success-msg').style.display = 'block';
-  }
+    if (!name || !email || !challenge) {
+      alert('Please fill in your name, email, and choose a challenge.');
+      return;
+    }
+    const btn = document.getElementById('submit-btn');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    try {
+      const response = await fetch('https://formspree.io/f/xvzlqolv', {
+        method: 'POST',
+        body: new FormData(this),
+        headers: { 'Accept': 'application/json' }
+      });
+      if (response.ok) {
+        document.getElementById('form-card').style.display = 'none';
+        document.getElementById('success-msg').style.display = 'block';
+      } else {
+        btn.textContent = 'Start my 21-day experiment →';
+        btn.disabled = false;
+        alert('Something went wrong. Please try again.');
+      }
+    } catch(err) {
+      btn.textContent = 'Start my 21-day experiment →';
+      btn.disabled = false;
+      alert('Connection error. Please try again.');
+    }
+  });
 </script>
 </body>
 </html>
