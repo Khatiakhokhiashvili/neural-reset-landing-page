@@ -516,34 +516,37 @@
         <div class="form-card" id="form-card">
           <h3>Apply for Cohort 2</h3>
           <p class="form-sub">Starts June 15 · 🌙 · Free</p>
-          <div class="form-group"><label class="form-label">Full name</label><input type="text" class="form-input" placeholder="Your name" id="f-name"></div>
-          <div class="form-group"><label class="form-label">Email address</label><input type="email" class="form-input" placeholder="your@email.com" id="f-email"></div>
-          <div class="form-group"><label class="form-label">Your background</label>
-            <select class="form-select" id="f-role">
-              <option value="">Select your role</option>
-              <option>Executive / Senior manager</option>
-              <option>Entrepreneur / Founder</option>
-              <option>Professional (finance, law, medicine)</option>
-              <option>University student</option>
-              <option>Other</option>
-            </select>
-          </div>
-          <div class="form-group"><label class="form-label">Your chosen challenge</label>
-            <select class="form-select" id="f-challenge">
-              <option value="">Select your challenge</option>
-              <option>Gratitude journaling — 5 min daily</option>
-              <option>Fasting after 6pm</option>
-              <option>Walk or run — 15 min daily</option>
-              <option>Yoga — 10 min daily</option>
-              <option>Contrast shower daily</option>
-              <option>Meditation — 7 min daily</option>
-              <option>No sugar for 21 days</option>
-              <option>No phone first 30 min</option>
-            </select>
-          </div>
-          <div class="form-group"><label class="form-label">Why do you want to join? (optional)</label><textarea class="form-input" rows="3" placeholder="What brought you here?" id="f-why" style="resize:vertical"></textarea></div>
-          <button class="form-submit" onclick="submitForm()">Start my 21-day experiment →</button>
-          <p class="form-note">Your data is anonymous in research. You can unsubscribe anytime.</p>
+          <form id="apply-form" action="https://formspree.io/f/xvzlqolv" method="POST" onsubmit="handleSubmit(event)">
+            <div class="form-group"><label class="form-label">Full name</label><input type="text" class="form-input" placeholder="Your name" name="name" required></div>
+            <div class="form-group"><label class="form-label">Email address</label><input type="email" class="form-input" placeholder="your@email.com" name="email" required></div>
+            <div class="form-group"><label class="form-label">Your background</label>
+              <select class="form-select" name="background" required>
+                <option value="">Select your role</option>
+                <option>Executive / Senior manager</option>
+                <option>Entrepreneur / Founder</option>
+                <option>Professional (finance, law, medicine)</option>
+                <option>University student</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">Your chosen challenge</label>
+              <select class="form-select" name="challenge" required>
+                <option value="">Select your challenge</option>
+                <option>Gratitude journaling — 5 min daily</option>
+                <option>Fasting after 6pm</option>
+                <option>Walk or run — 15 min daily</option>
+                <option>Yoga — 10 min daily</option>
+                <option>Contrast shower daily</option>
+                <option>Meditation — 7 min daily</option>
+                <option>No sugar for 21 days</option>
+                <option>No phone first 30 min</option>
+              </select>
+            </div>
+            <div class="form-group"><label class="form-label">Why do you want to join? (optional)</label><textarea class="form-input" rows="3" placeholder="What brought you here?" name="reason" style="resize:vertical"></textarea></div>
+            <input type="hidden" name="cohort" value="Cohort 2 · June 15 2026">
+            <button type="submit" class="form-submit">Start my 21-day experiment →</button>
+            <p class="form-note">Your data is anonymous in research. You can unsubscribe anytime.</p>
+          </form>
         </div>
         <div class="success-msg" id="success-msg">
           <div class="success-check">✓</div>
@@ -612,13 +615,25 @@
   }, { threshold: 0.1 });
   reveals.forEach(r => observer.observe(r));
 
-  function submitForm() {
-    const name = document.getElementById('f-name').value.trim();
-    const email = document.getElementById('f-email').value.trim();
-    const challenge = document.getElementById('f-challenge').value;
-    if (!name || !email || !challenge) { alert('Please fill in your name, email, and choose a challenge.'); return; }
-    document.getElementById('form-card').style.display = 'none';
-    document.getElementById('success-msg').style.display = 'block';
+  async function handleSubmit(e) {
+    e.preventDefault();
+    const form = document.getElementById('apply-form');
+    const data = new FormData(form);
+    try {
+      const res = await fetch('https://formspree.io/f/xvzlqolv', {
+        method: 'POST',
+        body: data,
+        headers: { 'Accept': 'application/json' }
+      });
+      if (res.ok) {
+        document.getElementById('form-card').style.display = 'none';
+        document.getElementById('success-msg').style.display = 'block';
+      } else {
+        alert('Something went wrong. Please try again or email directly.');
+      }
+    } catch(err) {
+      alert('Connection error. Please try again.');
+    }
   }
 </script>
 </body>
